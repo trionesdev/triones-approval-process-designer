@@ -1,0 +1,41 @@
+{
+  "name": "@trionesdev/approval-process-designer",
+  "version": "0.0.1",
+  "description": "",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "scripts": {
+    "dev": "father dev",
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "keywords": [],
+  "authors": [
+    "fengxiaotx@163.com"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "father": "^4.3.7",
+    "@types/react": "^18.2.39",
+    "@types/react-dom": "^18.2.17"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@formily/reactive": "^2.3.0",
+    "classnames": "^2.3.2",
+    "dayjs": "^1.11.10",
+    "lodash": "^4.17.21",
+    "randomstring": "^1.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
