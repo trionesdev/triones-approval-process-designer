@@ -1,7 +1,7 @@
 import {define, observable} from "@formily/reactive";
 import randomstring from "randomstring"
 
-type ProcessNodeType = 'START' | 'ROUTE' | 'CONDITION' | 'APPROVAL' | 'END'
+type ProcessNodeType = 'START' | 'ROUTE' | 'CONDITION' | 'APPROVAL' | 'CC' | 'END'
 
 export interface IProcessNode {
     id?: string
@@ -68,12 +68,11 @@ export class ProcessNode {
 
         if (node.nextNode) {
             this.nextNode = new ProcessNode(node.nextNode, this)
-        } else {
-            if (node.children) {
-                this.children = node.children?.map((node) => {
-                    return new ProcessNode(node, this)
-                }) || []
-            }
+        }
+        if (node.children && node.children.length>0) {
+            this.children = node.children?.map((node) => {
+                return new ProcessNode(node, this)
+            }) || []
         }
     }
 }

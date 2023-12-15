@@ -39,12 +39,19 @@ const RouteActivityStyled = styled('div')({
     }
 })
 
-type RouteActivityProps = {}
+type RouteActivityProps = {
+    children?: React.ReactNode,
+    nextActivity?: React.ReactNode,
+}
 
-export const RouteActivity: FC<RouteActivityProps> = ({}) => {
-    return <RouteBranches>
-        <RouteActivityStyled className={`route-activity`}>
-            <button className={`add-branch`}>添加条件</button>
-        </RouteActivityStyled>
-    </RouteBranches>
+export const RouteActivity: FC<RouteActivityProps> = ({children, nextActivity}) => {
+    return <>
+        <RouteBranches>
+            <RouteActivityStyled className={`route-activity`}>
+                <button className={`add-branch`}>添加条件</button>
+                {children}
+            </RouteActivityStyled>
+        </RouteBranches>
+        {nextActivity}
+    </>
 }

@@ -12,7 +12,6 @@ export const StartActivity: FC<StartActivityProps> = ({
                                                           nextActivity,
 
                                                       }) => {
-    debugger
     return <>
         <Activity processNode={processNode}/>
         {nextActivity}

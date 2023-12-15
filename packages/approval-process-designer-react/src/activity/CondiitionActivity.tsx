@@ -3,6 +3,7 @@ import React, {createRef, FC, useState} from "react";
 import {ProcessNode} from "../model";
 import classNames from "classnames";
 import {AddActivityBox} from "./AddActivityBox";
+import {BranchBox} from "./BranchBox";
 
 const ConditionActivityStyled = styled('div')({
     boxSizing: 'border-box',
@@ -10,10 +11,9 @@ const ConditionActivityStyled = styled('div')({
     display: 'inline-flex',
     flexDirection: 'column',
     '.condition-activity-box': {
-        paddingTop: '30px',
+        marginTop: '30px',
         paddingRight: '50px',
         paddingLeft: '50px',
-        justifyContent: 'center',
         display: 'inline-flex',
         alignItems: 'center',
         flexDirection: 'column',
@@ -122,9 +122,19 @@ const ConditionActivityStyled = styled('div')({
 
 type ConditionActivityProps = {
     processNode?: ProcessNode
+    nextActivity?: React.ReactNode
+    first?: boolean,
+    last?: boolean
+    index?: number
 }
 
-export const ConditionActivity: FC<ConditionActivityProps> = ({processNode}) => {
+export const ConditionActivity: FC<ConditionActivityProps> = ({
+                                                                  processNode,
+                                                                  nextActivity,
+                                                                  first,
+                                                                  last,
+                                                                  index
+                                                              }) => {
     const inputRef = createRef<any>()
     const [editing, setEditing] = useState(false)
 
@@ -132,30 +142,33 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({processNode}) => 
 
     }
 
-    return <ConditionActivityStyled className={`condition-activity`}>
-        <div className={`condition-activity-box`}>
-            <div className={classNames('auto-judge')}>
-                <div className={classNames(`header`)}>
-                    {
-                        processNode?.props?.defaultCondition ?
-                            <>
-                                <span className={classNames('default-title')}>默认条件</span>
-                                <span className={classNames('priority-title')}>优先级{1}</span>
-                            </> :
-                            <>{
-                                editing ? <input ref={inputRef} defaultValue={processNode?.title}
-                                                 onBlur={handleInputBlur}/> : <>
-                                    <span className={classNames('editable-title')}>{processNode?.title}</span>
-                                    <span className={classNames('priority-title')}>优先级{1}</span>
-                                </>
-                            }</>
-                    }
-                </div>
-                <div className={classNames(`body`)}>
+    return <BranchBox firstCol={first} lastCol={last}>
+        <ConditionActivityStyled className={`condition-activity`}>
+            <div className={`condition-activity-box`}>
+                <div className={classNames('auto-judge')}>
+                    <div className={classNames(`header`)}>
+                        {
+                            processNode?.props?.defaultCondition ?
+                                <>
+                                    <span className={classNames('default-title')}>默认条件</span>
+                                    <span className={classNames('priority-title')}>优先级{(index || 0) + 1}</span>
+                                </> :
+                                <>{
+                                    editing ? <input ref={inputRef} defaultValue={processNode?.title}
+                                                     onBlur={handleInputBlur}/> : <>
+                                        <span className={classNames('editable-title')}>{processNode?.title}</span>
+                                        <span className={classNames('priority-title')}>优先级{(index || 0) + 1}</span>
+                                    </>
+                                }</>
+                        }
+                    </div>
+                    <div className={classNames(`body`)}>
 
+                    </div>
                 </div>
+                <AddActivityBox/>
             </div>
-            <AddActivityBox/>
-        </div>
-    </ConditionActivityStyled>
+            {nextActivity}
+        </ConditionActivityStyled>
+    </BranchBox>
 }

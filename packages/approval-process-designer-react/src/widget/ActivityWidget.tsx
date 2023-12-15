@@ -7,29 +7,38 @@ import _ from "lodash"
 
 type ActivityWidgetProps = {
     processNode: ProcessNode;
+    [key: string]: any
 }
 
 export const ActivityWidget: FC<ActivityWidgetProps> = observer(({
-                                                                     processNode
+                                                                     processNode,
+                                                                     ...props
                                                                  }) => {
     const activities = useActivities()
     const handleRender = () => {
-        const Activity:ActivityFC<any> = _.get(activities,[processNode.componentName]);
-        
+        const Activity: ActivityFC<any> = _.get(activities, [processNode.componentName]);
+
         const renderChildren = () => {
-          return null
+            if (processNode.children.length > 0) {
+                return processNode.children.map((child, index) =>
+                    <ActivityWidget key={`${child.id}-${index}`} processNode={child} index={index} first={index == 0}
+                                    last={index == processNode.children.length - 1}/>)
+            } else {
+                return []
+            }
         }
-        
+
         const renderProps = () => {
-          return {
-              processNode: processNode,
-              nextActivity:  processNode.nextNode && <ActivityWidget processNode={processNode.nextNode}/>,
-          }
+            return {
+                processNode: processNode,
+                nextActivity: processNode.nextNode && <ActivityWidget processNode={processNode.nextNode}/>,
+                ...props
+            }
         }
-        
-        if (Activity){
-            return React.createElement(Activity, renderProps(),renderChildren())
-        }else {
+
+        if (Activity) {
+            return React.createElement(Activity, renderProps(), renderChildren())
+        } else {
             return null
         }
     }
