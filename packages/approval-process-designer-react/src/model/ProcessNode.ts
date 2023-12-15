@@ -3,7 +3,7 @@ import randomstring from "randomstring"
 
 type ProcessNodeType = 'START' | 'ROUTE' | 'CONDITION' | 'APPROVAL' | 'END'
 
-interface IProcessNode {
+export interface IProcessNode {
     id?: string
     type: ProcessNodeType
     componentName?: string
@@ -50,7 +50,9 @@ export class ProcessNode {
 
     makeObservable() {
         define(this, {
+            nextNode: observable.ref,
             children: observable.shallow,
+            props: observable
         })
     }
 

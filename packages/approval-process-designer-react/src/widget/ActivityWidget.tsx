@@ -3,6 +3,7 @@ import {ProcessNode} from "../model";
 import {observer} from "@formily/react";
 import {useActivities} from "../hooks";
 import {ActivityFC} from "../types";
+import _ from "lodash"
 
 type ActivityWidgetProps = {
     processNode: ProcessNode;
@@ -13,14 +14,17 @@ export const ActivityWidget: FC<ActivityWidgetProps> = observer(({
                                                                  }) => {
     const activities = useActivities()
     const handleRender = () => {
-        const Activity:ActivityFC<any> = activities?.[processNode.componentName];
+        const Activity:ActivityFC<any> = _.get(activities,[processNode.componentName]);
         
         const renderChildren = () => {
           return null
         }
         
         const renderProps = () => {
-          return {}
+          return {
+              processNode: processNode,
+              nextActivity:  processNode.nextNode && <ActivityWidget processNode={processNode.nextNode}/>,
+          }
         }
         
         if (Activity){

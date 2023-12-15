@@ -2,27 +2,31 @@ import React from 'react';
 import './App.css';
 import {
     Activity,
-    ActivityProps, ConditionActivity,
-    EndActivity,
-    ProcessNode,
+    ActivityProps, ApprovalProcessDesigner, ConditionActivity,
+    EndActivity, IProcessNode,
+    ProcessNode, ProcessWidget,
     RouteActivity
 } from "@trionesdev/approval-process-designer-react";
+import {ApprovalActivity, StartActivity} from "./activities";
 
 function App() {
 
-    const processNode = new ProcessNode({
-        id: '1',
+    const processNode: IProcessNode = {
         type: 'START',
-        title: 'Start',
-    })
-
-    const s: ActivityProps = {
-        processNode: processNode
+        componentName: 'StartActivity',
+        title: '开始',
+        nextNode:{
+            type: 'APPROVAL',
+            componentName: 'ApprovalActivity',
+            title: '审批',
+        }
     }
 
     return (
         <>
-
+            <ApprovalProcessDesigner value={processNode}>
+                <ProcessWidget activities={{StartActivity, ApprovalActivity}}/>
+            </ApprovalProcessDesigner>
         </>
     );
 }

@@ -3,11 +3,16 @@ import {Activity} from "./Activity";
 import {ProcessNode} from "../model";
 
 type StartActivityProps = {
-    nextActivity: React.ReactNode
     processNode: ProcessNode
+    nextActivity: React.ReactNode
 }
 
-export const StartActivity: FC<StartActivityProps> = ({nextActivity, processNode}) => {
+export const StartActivity: FC<StartActivityProps> = ({
+                                                          processNode,
+                                                          nextActivity,
+
+                                                      }) => {
+    debugger
     return <>
         <Activity processNode={processNode}/>
         {nextActivity}
