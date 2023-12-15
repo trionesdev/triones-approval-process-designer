@@ -1,5 +1,5 @@
 {
-  "name": "@trionesdev/approval-process-designer",
+  "name": "@trionesdev/approval-process-designer-react",
   "version": "0.0.1",
   "description": "",
   "module": "dist/esm/index.js",
@@ -31,6 +31,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@formily/reactive": "^2.3.0",
+    "@formily/react": "^2.3.0",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.10",
     "lodash": "^4.17.21",

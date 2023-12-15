@@ -1,5 +1,10 @@
-import React from "react"
+import React, {FC} from "react"
+import {ApprovalProcessContext} from "../context";
 
-export const ApprovalProcessDesigner = () => {
-  return <></>
+type ApprovalProcessDesignerProps = {}
+
+export const ApprovalProcessDesigner: FC<ApprovalProcessDesignerProps> = ({}) => {
+    return <ApprovalProcessContext.Provider value={{}}>
+
+    </ApprovalProcessContext.Provider>
 }
