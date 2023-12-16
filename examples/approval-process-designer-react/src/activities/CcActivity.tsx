@@ -5,5 +5,6 @@ export const CcActivity : ActivityFC<any> = TdCcActivity
 CcActivity.Resource = {
     icon:'',
     componentName:'CcActivity',
+    title:'抄送人',
     addable: true
 }

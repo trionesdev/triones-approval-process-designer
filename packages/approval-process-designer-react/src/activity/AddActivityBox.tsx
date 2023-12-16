@@ -1,7 +1,11 @@
 import styled from "@emotion/styled";
 import React, {FC} from "react";
 import {PlusIcon} from "../Icons";
-import {Popover} from "../components";
+import {Popover,Col, Row} from "../components";
+import {GlobalStore} from "../store";
+import {observer} from "@formily/react";
+import {useProcessEngine} from "../hooks";
+import {ActivityCardWidget} from "../widget/ActivityCardWidget";
 
 const AddActivityBoxStyled = styled('div')({
     width: '240px',
@@ -55,12 +59,24 @@ const AddActivityBoxStyled = styled('div')({
 
 type AddActivityBoxProps = {}
 
-export const AddActivityBox: FC<AddActivityBoxProps> = ({}) => {
+export const AddActivityBox: FC<AddActivityBoxProps> = observer(({}) => {
+    const engine = useProcessEngine()
+    const {addableActivityResources} = engine
+
+    console.log(GlobalStore.getAddableActivityResources())
+
     return <AddActivityBoxStyled className={`add-activity-box`}>
         <div className={`add-activity-btn`}>
-            <Popover trigger={'click'} placement={`rightTop`} title={'sss'}>
+            <Popover trigger={'click'} placement={`rightTop`}
+                     content={<Row gutter={[8, 8]} style={{width: '340px'}}>
+                         {addableActivityResources?.map((resource) => {
+                             return <Col span={12} key={`${resource.componentName}`}>
+                                 <ActivityCardWidget resource={resource}/>
+                             </Col>
+                         }) || []}
+                     </Row>}>
                 <button><span>{React.cloneElement(PlusIcon)}</span></button>
             </Popover>
         </div>
     </AddActivityBoxStyled>
-}
+})

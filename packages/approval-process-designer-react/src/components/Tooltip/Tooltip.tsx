@@ -8,7 +8,6 @@ const prefixCls = 'td-tooltip'
 const tooltipCss = css({
     [`.${prefixCls}`]: {
         position: 'absolute',
-        pointerEvents: 'none',
         zIndex: 1070,
         display: 'block',
         visibility: 'visible',

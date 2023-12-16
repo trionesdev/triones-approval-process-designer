@@ -8,7 +8,6 @@ const prefixCls = 'td-popover'
 const popoverCss = css({
     [`.${prefixCls}`]: {
         position: 'absolute',
-        pointerEvents: 'none',
         zIndex: 1070,
         display: 'block',
         visibility: 'visible',
@@ -17,9 +16,10 @@ const popoverCss = css({
         backgroundColor: '#0000000d',
         padding: '0px',
         opacity: .9,
-        width: 'max-content',
-        maxWidth: '250px',
-        color: 'rgba(0,0,0,0.88)',
+        // width: 'max-content',
+        minWidth: '250px',
+        color: 'rgba(255,255,255,1)',
+        transformOrigin: 'var(--arrow-x, 50%) var(--arrow-y, 50%)',
         [`&-hidden`]: {
             display: 'none'
         },
@@ -37,7 +37,7 @@ const popoverCss = css({
                 content: '" "',
                 width: '16px',
                 height: '8px',
-                backgroundColor: 'rgba(0,0,0,0.85)',
+                backgroundColor: 'rgba(255,255,255,0.85)',
                 clipPath: 'path(\'M 0 8 A 4 4 0 0 0 2.82842712474619 6.82842712474619 L 6.585786437626905 3.0710678118654755 A 2 2 0 0 1 9.414213562373096 3.0710678118654755 L 13.17157287525381 6.82842712474619 A 4 4 0 0 0 16 8 Z\')',
                 pointerEvents: 'none'
             },
@@ -64,7 +64,7 @@ const popoverCss = css({
             textAlign: 'start',
             textDecoration: 'none',
             wordWrap: 'break-word',
-            backgroundColor: 'rgba(0,0,0,0.85)',
+            backgroundColor: 'rgba(255,255,255,0.85)',
             color: '#ffffff',
             padding: '6px 8px',
             minWidth: '32px',
@@ -80,17 +80,21 @@ const PopoverStyled = styled(RcTooltip)((props) => {
 })
 
 type PopoverProps = {
-    title?: React.ReactNode
+    content?: React.ReactNode
 } & Omit<RcTooltipProps, 'overlay' | 'prefixCls'>
 
 export const Popover: FC<PopoverProps> = ({
                                               children,
-                                              title,
+                                              content,
                                               ...props
                                           }) => {
+    const overlay = <div>{content}</div>
     return <>
         <Global styles={popoverCss}/>
-        <PopoverStyled prefixCls={prefixCls} overlay={title}  {...props}>
+        <PopoverStyled {...props}
+                       prefixCls={prefixCls}
+                       overlay={overlay}
+                       overlayStyle={{padding: '4px', ...props.overlayStyle}}>
             {children}
         </PopoverStyled>
     </>

@@ -7,6 +7,7 @@ export type IActivities={
 export interface IResource {
     icon?: string;
     componentName?: string;
+    title?: string;
     addable?: boolean;
 }
 

@@ -6,6 +6,7 @@ import {ActivitiesContext} from "../context";
 import {EndActivity} from "../activity";
 import styled from "@emotion/styled";
 import {GlobalStore} from "../store";
+import {Col, Row} from "../components";
 
 const ProcessWidgetStyled = styled('div')({
     background: '#F0F2F5',
@@ -21,12 +22,18 @@ export const ProcessWidget: FC<ProcessWidgetProps> = ({
                                                       }) => {
     const processNode = useProcessNode()
 
-    useEffect(() => {
-        GlobalStore.registerActivityResources(activities)
-    }, [])
+    GlobalStore.registerActivityResources(activities)
 
     return <ActivitiesContext.Provider value={activities}>
         <ProcessWidgetStyled className={`process-widget`}>
+            <div>
+            <Row>
+                <Col span={12}>1</Col>
+                <Col span={12}>2</Col>
+                <Col span={12}>3</Col>
+                <Col span={12}>4</Col>
+            </Row>
+            </div>
             {processNode && <ActivityWidget processNode={processNode}></ActivityWidget>}
             <EndActivity/>
         </ProcessWidgetStyled>
