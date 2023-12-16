@@ -4,6 +4,8 @@ import {ProcessNode} from "../model";
 import classNames from "classnames";
 import {AddActivityBox} from "./AddActivityBox";
 import {BranchBox} from "./BranchBox";
+import {QuestionIcon} from "../Icons";
+import {Tooltip} from "../components";
 
 const ConditionActivityStyled = styled('div')({
     boxSizing: 'border-box',
@@ -73,7 +75,10 @@ const ConditionActivityStyled = styled('div')({
                 textAlign: 'left',
                 lineHeight: '16px',
                 '.default-title': {
-                    color: 'rgba(25, 31, 37, 0.56)'
+                    color: 'rgba(25, 31, 37, 0.56)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
                 },
                 '.editable-title': {
                     lineHeight: '15px',
@@ -150,7 +155,13 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
                         {
                             processNode?.props?.defaultCondition ?
                                 <>
-                                    <span className={classNames('default-title')}>默认条件</span>
+                                <span className={classNames('default-title')}>默认条件
+                                    <Tooltip placement={`top`} showArrow={true} trigger={`click`}
+                                             title={`当未满足其他条件时，系统自动创建默认条件，确保条件分支完整`}>
+                                        <span
+                                            className={classNames('action-icon')}>{React.cloneElement(QuestionIcon)}</span>
+                                    </Tooltip>
+                                </span>
                                     <span className={classNames('priority-title')}>优先级{(index || 0) + 1}</span>
                                 </> :
                                 <>{

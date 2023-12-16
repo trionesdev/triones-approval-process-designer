@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React, {FC} from "react";
 import {PlusIcon} from "../Icons";
+import {Popover} from "../components";
 
 const AddActivityBoxStyled = styled('div')({
     width: '240px',
@@ -32,11 +33,17 @@ const AddActivityBoxStyled = styled('div')({
         'button': {
             border: 'none',
             borderRadius: '50px',
-            height:'32px',
-            width:'32px',
+            height: '32px',
+            width: '32px',
             backgroundColor: '#1677ff',
             cursor: 'pointer',
+            display: 'inline-flex',
+            justifyContent: 'center',
+            alignItems: 'center',
             'span': {
+                display: 'inline-flex',
+                justifyContent: 'center',
+                alignItems: 'center',
                 'svg': {
                     color: '#fff',
                     fontSize: '16px'
@@ -51,7 +58,9 @@ type AddActivityBoxProps = {}
 export const AddActivityBox: FC<AddActivityBoxProps> = ({}) => {
     return <AddActivityBoxStyled className={`add-activity-box`}>
         <div className={`add-activity-btn`}>
-            <button><span>{React.cloneElement(PlusIcon)}</span></button>
+            <Popover trigger={'click'} placement={`rightTop`} title={'sss'}>
+                <button><span>{React.cloneElement(PlusIcon)}</span></button>
+            </Popover>
         </div>
     </AddActivityBoxStyled>
 }

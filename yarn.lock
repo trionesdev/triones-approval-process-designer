@@ -11888,6 +11888,15 @@ rc-textarea@~1.5.0, rc-textarea@~1.5.3:
     rc-resize-observer "^1.0.0"
     rc-util "^5.27.0"
 
+rc-tooltip@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.npmmirror.com/rc-tooltip/-/rc-tooltip-6.1.2.tgz#33923ecfb2cf24347975093cbd0b048ab33c9567"
+  integrity sha512-89zwvybvCxGJu3+gGF8w5AXd4HHk6hIN7K0vZbkzjilVaEAIWPqc1fcyeUeP71n3VCcw7pTL9LyFupFbrx8gHw==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@rc-component/trigger" "^1.18.0"
+    classnames "^2.3.1"
+
 rc-tooltip@~6.1.2:
   version "6.1.2"
   resolved "https://moensun-npm.pkg.coding.net/npm/moensun/rc-tooltip/-/rc-tooltip-6.1.2.tgz#33923ecfb2cf24347975093cbd0b048ab33c9567"

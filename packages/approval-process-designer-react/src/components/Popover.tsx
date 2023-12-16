@@ -4,8 +4,8 @@ import styled from "@emotion/styled";
 import {css, Global} from "@emotion/react";
 import {TooltipProps as RcTooltipProps} from "rc-tooltip/es/Tooltip";
 
-const prefixCls = 'td-tooltip'
-const tooltipCss = css({
+const prefixCls = 'td-popover'
+const popoverCss = css({
     [`.${prefixCls}`]: {
         position: 'absolute',
         pointerEvents: 'none',
@@ -57,8 +57,8 @@ const tooltipCss = css({
         },
         [`$-content`]: {
             position: 'relative',
-            margin:0,
-            padding:0
+            margin: 0,
+            padding: 0
         },
         [`&-inner`]: {
             textAlign: 'start',
@@ -71,27 +71,27 @@ const tooltipCss = css({
             minHeight: '32px',
             borderRadius: '6px',
             boxSizing: 'border-box'
-        },
+        }
     }
 })
 
-const TooltipStyled = styled(RcTooltip)((props) => {
+const PopoverStyled = styled(RcTooltip)((props) => {
     return {}
 })
 
-type TooltipProps = {
+type PopoverProps = {
     title?: React.ReactNode
 } & Omit<RcTooltipProps, 'overlay' | 'prefixCls'>
 
-export const Tooltip: FC<TooltipProps> = ({
+export const Popover: FC<PopoverProps> = ({
                                               children,
                                               title,
                                               ...props
                                           }) => {
     return <>
-        <Global styles={tooltipCss}/>
-        <TooltipStyled prefixCls={prefixCls} overlay={title}  {...props}>
+        <Global styles={popoverCss}/>
+        <PopoverStyled prefixCls={prefixCls} overlay={title}  {...props}>
             {children}
-        </TooltipStyled>
+        </PopoverStyled>
     </>
 }

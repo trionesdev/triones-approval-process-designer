@@ -1,6 +1,10 @@
 import React from 'react';
 import './App.css';
-import {ApprovalProcessDesigner, IProcessNode, ProcessWidget} from "@trionesdev/approval-process-designer-react";
+import {
+    ApprovalProcessDesigner,
+    IProcessNode,
+    ProcessWidget, StudioPanel
+} from "@trionesdev/approval-process-designer-react";
 import {ApprovalActivity, ConditionActivity, RouteActivity, StartActivity,CcActivity} from "./activities";
 
 function App() {
@@ -48,7 +52,9 @@ function App() {
     return (
         <>
             <ApprovalProcessDesigner value={processNode}>
-                <ProcessWidget activities={{StartActivity, ApprovalActivity,RouteActivity,ConditionActivity,CcActivity}}/>
+                <StudioPanel>
+                    <ProcessWidget activities={{StartActivity, ApprovalActivity,RouteActivity,ConditionActivity,CcActivity}}/>
+                </StudioPanel>
             </ApprovalProcessDesigner>
         </>
     );
