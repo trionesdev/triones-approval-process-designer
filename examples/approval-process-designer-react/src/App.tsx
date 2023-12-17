@@ -51,7 +51,7 @@ function App() {
     }
 
     return (
-        <>
+        <div>
             <Watermark style={{height: '100%'}} content={['书阙', '北斗开源']}>
                 <ApprovalProcessDesigner value={processNode}>
                     <StudioPanel>
@@ -65,7 +65,7 @@ function App() {
                     </StudioPanel>
                 </ApprovalProcessDesigner>
             </Watermark>
-        </>
+        </div>
     );
 }
 
