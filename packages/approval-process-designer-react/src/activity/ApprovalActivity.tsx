@@ -11,7 +11,7 @@ export const ApprovalActivity: FC<ApprovalActivityProps> = ({
                                                                 nextActivity,
                                                             }) => {
     return <>
-        <Activity processNode={processNode}/>
+        <Activity processNode={processNode} closeable={true}/>
         {nextActivity}
     </>
 }

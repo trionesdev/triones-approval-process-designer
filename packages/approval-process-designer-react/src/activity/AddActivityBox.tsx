@@ -67,8 +67,8 @@ export const AddActivityBox: FC<AddActivityBoxProps> = observer(({}) => {
 
     return <AddActivityBoxStyled className={`add-activity-box`}>
         <div className={`add-activity-btn`}>
-            <Popover trigger={'click'} placement={`rightTop`}
-                     content={<Row gutter={[8, 8]} style={{width: '340px'}}>
+            <Popover trigger={'click'} placement={`rightTop`} showArrow={false}
+                     content={<Row gutter={[8, 8]} style={{width: '320px'}}>
                          {addableActivityResources?.map((resource) => {
                              return <Col span={12} key={`${resource.componentName}`}>
                                  <ActivityCardWidget resource={resource}/>

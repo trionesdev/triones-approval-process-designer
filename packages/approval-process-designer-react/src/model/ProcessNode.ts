@@ -1,5 +1,6 @@
 import {define, observable} from "@formily/reactive";
 import randomstring from "randomstring"
+import _ from "lodash";
 
 type ProcessNodeType = 'START' | 'ROUTE' | 'CONDITION' | 'APPROVAL' | 'CC' | 'END'
 
@@ -56,6 +57,14 @@ export class ProcessNode {
         })
     }
 
+    setNextNode(node: ProcessNode) {
+        if (!node) {
+            this.nextNode = null
+            return
+        }
+        this.nextNode = node
+        node.prevNodeId = this.id
+    }
 
     from(node?: IProcessNode) {
         if (!node) return
@@ -69,10 +78,52 @@ export class ProcessNode {
         if (node.nextNode) {
             this.nextNode = new ProcessNode(node.nextNode, this)
         }
-        if (node.children && node.children.length>0) {
+        if (node.children && node.children.length > 0) {
             this.children = node.children?.map((node) => {
                 return new ProcessNode(node, this)
             }) || []
         }
+    }
+
+    remove() {
+        const parentNode = ProcessNodes.get(this.prevNodeId)
+
+
+        if (this.type == "CONDITION") { //当前节点是条件节点
+            const linkedIds = this.collectLinkIds()
+            if (parentNode.children.length > 2) { //当分支超过2个时，只需要删除当前节点，否则，清除整个路由节点
+                parentNode.children = _.filter(parentNode.children, (conditionNode: any) => {
+                    return conditionNode.id !== this.id
+                })
+            } else {
+                const parentParentNode = ProcessNodes.get(parentNode.prevNodeId) //条件节点的父节点是路由节点，如果清除整个路由，需要找到父节点的父节点
+                linkedIds.push(parentNode.id);
+                parentParentNode?.setNextNode(parentNode.nextNode)
+            }
+            _.forEach(linkedIds, (id: string) => {
+                ProcessNodes.delete(id)
+            })
+        } else {
+            parentNode?.setNextNode(this.nextNode)
+            ProcessNodes.delete(this.id)
+        }
+    }
+
+    /**
+     * 获取下面链路上的所有节点id
+     */
+    collectLinkIds() {
+        let ids = []
+        if (this.nextNode) {
+            ids.push(this.nextNode.id)
+            ids = ids.concat(this.nextNode.collectLinkIds())
+        }
+        if (this.children && this.children.length > 0) {
+            this.children.forEach(child => {
+                ids.push(child.id)
+                ids = ids.concat(child.collectLinkIds())
+            })
+        }
+        return ids
     }
 }

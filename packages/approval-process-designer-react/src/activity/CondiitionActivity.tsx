@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
-import React, {createRef, FC, useState} from "react";
+import React, {createRef, FC, useEffect, useState} from "react";
 import {ProcessNode} from "../model";
 import classNames from "classnames";
 import {AddActivityBox} from "./AddActivityBox";
 import {BranchBox} from "./BranchBox";
-import {QuestionIcon} from "../Icons";
+import {CloseIcon, QuestionIcon} from "../Icons";
 import {Tooltip} from "../components";
+import {IconWidget} from "../widget/IconWidget";
 
 const ConditionActivityStyled = styled('div')({
     boxSizing: 'border-box',
@@ -69,11 +70,18 @@ const ConditionActivityStyled = styled('div')({
                 }
             },
             '.header': {
+                display: 'flex',
+                width: '1005',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 position: 'relative',
                 fontSize: '12px',
                 color: '#15BC83',
                 textAlign: 'left',
                 lineHeight: '16px',
+                'input': {
+                    outline: 'none'
+                },
                 '.default-title': {
                     color: 'rgba(25, 31, 37, 0.56)',
                     display: 'inline-flex',
@@ -115,7 +123,7 @@ const ConditionActivityStyled = styled('div')({
                 display: 'flex',
                 marginTop: '6px',
                 justifyContent: 'space-between',
-                '.text': {
+                '.description': {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     display: '-webkit-box'
@@ -143,20 +151,37 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
     const inputRef = createRef<any>()
     const [editing, setEditing] = useState(false)
 
-    const handleInputBlur = (e: any) => {
+    const handleOnClick = (e: any) => {
+        if (processNode.props?.defaultCondition) {
+            return
+        }
 
     }
 
+    const handleInputBlur = (e: any) => {
+        setEditing(false)
+    }
+
+    const handleRemove = () => {
+        processNode.remove()
+    }
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus()
+        }
+    }, [inputRef])
+
     return <BranchBox firstCol={first} lastCol={last}>
         <ConditionActivityStyled className={`condition-activity`}>
-            <div className={`condition-activity-box`}>
+            <div className={`condition-activity-box`} onClick={handleOnClick}>
                 <div className={classNames('auto-judge')}>
                     <div className={classNames(`header`)}>
                         {
                             processNode?.props?.defaultCondition ?
                                 <>
                                 <span className={classNames('default-title')}>默认条件
-                                    <Tooltip placement={`top`} showArrow={true} trigger={`click`}
+                                    <Tooltip placement={`top`} showArrow={true} trigger={`hover`}
                                              title={`当未满足其他条件时，系统自动创建默认条件，确保条件分支完整`}>
                                         <span
                                             className={classNames('action-icon')}>{React.cloneElement(QuestionIcon)}</span>
@@ -167,14 +192,18 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
                                 <>{
                                     editing ? <input ref={inputRef} defaultValue={processNode?.title}
                                                      onBlur={handleInputBlur}/> : <>
-                                        <span className={classNames('editable-title')}>{processNode?.title}</span>
+                                        <span className={classNames('editable-title')}
+                                              onClick={() => setEditing(true)}>{processNode?.title}</span>
                                         <span className={classNames('priority-title')}>优先级{(index || 0) + 1}</span>
+                                        <IconWidget className={`close`} icon={React.cloneElement(CloseIcon)}
+                                                    onClick={handleRemove}/>
                                     </>
                                 }</>
                         }
                     </div>
                     <div className={classNames(`body`)}>
-
+                        <div
+                            className={classNames(`description`)}>{processNode?.props?.defaultCondition ? '其他条件进入此流程' : processNode.description}</div>
                     </div>
                 </div>
                 <AddActivityBox/>

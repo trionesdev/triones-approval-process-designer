@@ -2,8 +2,9 @@ import styled from "@emotion/styled";
 import React, {createRef, FC, useEffect, useState} from "react";
 import classNames from "classnames";
 import {ProcessNode} from "../model";
-import {RightIcon} from "../Icons";
+import {CloseIcon, RightIcon} from "../Icons";
 import {AddActivityBox} from "./AddActivityBox";
+import {IconWidget} from "../widget/IconWidget";
 
 const ActivityStyled = styled('div')({
     boxSizing: 'border-box',
@@ -64,6 +65,9 @@ const ActivityStyled = styled('div')({
             justifyContent: 'space-between',
             '.close': {
                 display: 'none'
+            },
+            'input': {
+                outline: 'none'
             }
         },
         '.editable-title': {
@@ -123,6 +127,10 @@ export const Activity: FC<ActivityProps> = ({
         setEditing(false)
     }
 
+    const handleRemove = () => {
+        processNode?.remove()
+    }
+
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.focus()
@@ -141,8 +149,10 @@ export const Activity: FC<ActivityProps> = ({
                                       e.stopPropagation();
                                       setEditing(true)
                                   }}>{processNode?.title}</span>}
-                        {closeable && <span></span>}
+
                     </div>
+                    {closeable &&
+                        <IconWidget className={`close`} onClick={handleRemove} icon={React.cloneElement(CloseIcon)}/>}
                 </div>
                 <div className={classNames('body')}>
                     <div>ss</div>

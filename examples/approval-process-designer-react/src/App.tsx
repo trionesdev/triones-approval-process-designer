@@ -24,17 +24,17 @@ function App() {
                 nextNode:{
                     type: 'CC',
                     componentName: 'CcActivity',
-                    title: '抄送',
+                    title: '抄送人',
                 },
                 children:[
                     {
                         type:'CONDITION',
                         componentName:'ConditionActivity',
-                        title:'条件',
+                        title:'条件1',
                         nextNode:{
                             type: 'APPROVAL',
                             componentName: 'ApprovalActivity',
-                            title: '审批',
+                            title: '审批人',
                         }
                     },
                     {

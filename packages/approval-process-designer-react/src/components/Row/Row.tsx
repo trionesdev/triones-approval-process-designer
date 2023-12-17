@@ -24,15 +24,15 @@ export const Row: FC<RowProps> = ({
     let rowGap: number = 0;
     let columnGap: number = 0;
     let margin: number = 0;
-    // if (_.isArray(gutter)) {
-    //     columnGap = gutter[0]
-    //     rowGap = gutter[1]
-    //     margin = 0 - gutter[0] / 2
-    // } else if (typeof gutter === "number") {
-    //     columnGap = gutter
-    //     rowGap = gutter
-    //     margin = 0 - gutter / 2
-    // }
+    if (_.isArray(gutter)) {
+        columnGap = gutter[0] / 2
+        rowGap = gutter[1]
+        margin = 0 - gutter[0] / 2
+    } else if (typeof gutter === "number") {
+        columnGap = gutter / 2
+        rowGap = gutter
+        margin = 0 - gutter / 2
+    }
 
     const handleRender = (children: React.ReactNode) => {
         const childArray = React.Children.toArray(children);

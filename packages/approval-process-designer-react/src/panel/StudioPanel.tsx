@@ -1,11 +1,14 @@
 import React, {FC} from "react";
 import {css, Global} from "@emotion/react";
+import {GlobalStore} from "../store";
+import * as Icons from "../Icons"
 
 type StudioPanelProps = {
     children?: React.ReactNode;
 }
 
 export const StudioPanel: FC<StudioPanelProps> = ({children}) => {
+    GlobalStore.registerIcons(Icons)
     return <div>
         <Global styles={css`
 

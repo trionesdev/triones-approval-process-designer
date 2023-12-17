@@ -12,7 +12,7 @@ export const CcActivity: FC<CcActivityProps> = ({
                                                     nextActivity,
                                                 }) => {
     return <>
-        <Activity titleStyle={{backgroundColor: 'rgb(50, 150, 250)'}} processNode={processNode}/>
+        <Activity titleStyle={{backgroundColor: 'rgb(50, 150, 250)'}} processNode={processNode} closeable={true}/>
         {nextActivity}
     </>
 }
