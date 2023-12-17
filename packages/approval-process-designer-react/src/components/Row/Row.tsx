@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, forwardRef} from "react";
 import styled from "@emotion/styled";
 import _ from "lodash";
 
@@ -15,12 +15,12 @@ type RowProps = {
     gutter?: number | number[]
 }
 
-export const Row: FC<RowProps> = ({
-                                      children,
-                                      className,
-                                      style,
-                                      gutter
-                                  }) => {
+export const Row = forwardRef(({
+                                   children,
+                                   className,
+                                   style,
+                                   gutter
+                               }: RowProps, ref: any) => {
     let rowGap: number = 0;
     let columnGap: number = 0;
     let margin: number = 0;
@@ -47,9 +47,9 @@ export const Row: FC<RowProps> = ({
         })
     }
 
-    return <RowStyled className={className} style={{
+    return <RowStyled ref={ref} className={className} style={{
         rowGap,
         marginLeft: margin,
         marginRight: margin, ...style
     }}>{handleRender(children)}</RowStyled>
-}
+})

@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
-import React, {FC} from "react";
+import React, {FC, useRef} from "react";
 import {PlusIcon} from "../Icons";
-import {Popover,Col, Row} from "../components";
+import {Popover, Col, Row} from "../components";
 import {GlobalStore} from "../store";
 import {observer} from "@formily/react";
 import {useProcessEngine} from "../hooks";
-import {ActivityCardWidget} from "../widget/ActivityCardWidget";
+import {AddActivityItemWidget} from "../widget/AddActivityItemWidget";
+import {ProcessNode} from "../model";
+import {useClickAway} from 'ahooks';
 
 const AddActivityBoxStyled = styled('div')({
     width: '240px',
@@ -57,25 +59,43 @@ const AddActivityBoxStyled = styled('div')({
     }
 })
 
-type AddActivityBoxProps = {}
+type AddActivityBoxProps = {
+    processNode: ProcessNode;
+}
 
-export const AddActivityBox: FC<AddActivityBoxProps> = observer(({}) => {
+export const AddActivityBox: FC<AddActivityBoxProps> = observer(({
+                                                                     processNode
+                                                                 }) => {
+    const [open, setOpen] = React.useState(false)
+    const popoverRef = useRef<any>(null);
+
     const engine = useProcessEngine()
     const {addableActivityResources} = engine
 
-    console.log(GlobalStore.getAddableActivityResources())
+
+    useClickAway(() => {
+        if (open) {
+            setOpen(false)
+        }
+    }, popoverRef);
 
     return <AddActivityBoxStyled className={`add-activity-box`}>
         <div className={`add-activity-btn`}>
-            <Popover trigger={'click'} placement={`rightTop`} showArrow={false}
-                     content={<Row gutter={[8, 8]} style={{width: '320px'}}>
+            <Popover trigger={'click'} visible={open} placement={`rightTop`} showArrow={false}
+                     content={<Row ref={popoverRef} gutter={[8, 8]} style={{width: '320px'}}>
                          {addableActivityResources?.map((resource) => {
                              return <Col span={12} key={`${resource.componentName}`}>
-                                 <ActivityCardWidget resource={resource}/>
+                                 <AddActivityItemWidget resource={resource} processNode={processNode} onClick={() => {
+                                     setOpen(false)
+                                 }}/>
                              </Col>
                          }) || []}
                      </Row>}>
-                <button><span>{React.cloneElement(PlusIcon)}</span></button>
+                <button onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    setOpen(true)
+                }}><span>{React.cloneElement(PlusIcon)}</span></button>
             </Popover>
         </div>
     </AddActivityBoxStyled>

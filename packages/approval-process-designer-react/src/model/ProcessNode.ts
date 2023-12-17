@@ -1,8 +1,9 @@
 import {define, observable} from "@formily/reactive";
 import randomstring from "randomstring"
 import _ from "lodash";
+import {GlobalStore} from "../store";
 
-type ProcessNodeType = 'START' | 'ROUTE' | 'CONDITION' | 'APPROVAL' | 'CC' | 'END'
+export type ProcessNodeType = 'START' | 'ROUTE' | 'CONDITION' | 'APPROVAL' | 'CC' | 'END'
 
 export interface IProcessNode {
     id?: string
@@ -62,8 +63,19 @@ export class ProcessNode {
             this.nextNode = null
             return
         }
+        node.nextNode = this.nextNode
         this.nextNode = node
         node.prevNodeId = this.id
+    }
+
+    setChildren(nodes: ProcessNode[]) {
+        if (_.isEmpty(nodes)) {
+            return
+        }
+        _.forEach(nodes, (node) => {
+            node.prevNodeId = this.id
+        })
+        this.children = nodes
     }
 
     from(node?: IProcessNode) {
@@ -85,9 +97,26 @@ export class ProcessNode {
         }
     }
 
+    clone(parentNode?: ProcessNode) {
+        const node = new ProcessNode({
+            type: this.type,
+            componentName: this.componentName,
+            title: this.title,
+            description: this.description,
+            props: _.cloneDeep(this.props),
+        }, parentNode)
+        if (this.type == 'ROUTE') {
+            const conditionResource = GlobalStore.getConditionActivityResource()
+            const condition1 = conditionResource.node.clone(node)
+            const conditionDefault = conditionResource.node.clone(node)
+            conditionDefault.props = _.assign(conditionDefault.props, {defaultCondition: true})
+            node.setChildren([condition1, conditionDefault])
+        }
+        return node
+    }
+
     remove() {
         const parentNode = ProcessNodes.get(this.prevNodeId)
-
 
         if (this.type == "CONDITION") { //当前节点是条件节点
             const linkedIds = this.collectLinkIds()
@@ -106,6 +135,20 @@ export class ProcessNode {
         } else {
             parentNode?.setNextNode(this.nextNode)
             ProcessNodes.delete(this.id)
+        }
+    }
+
+    /**
+     * 添加条件分支
+     */
+    addConditionBranch() {
+        if (this.type !== "ROUTE") {
+            return
+        }
+        const conditionActivity = GlobalStore.getConditionActivityResource()?.node.clone(this)
+        if (conditionActivity) {
+            const newChildren = _.concat(this.children.slice(0, this.children.length - 1), conditionActivity, this.children.slice(this.children.length - 1))
+            this.setChildren(newChildren)
         }
     }
 

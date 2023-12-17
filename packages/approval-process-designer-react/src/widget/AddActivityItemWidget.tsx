@@ -4,6 +4,7 @@ import {FC} from "react";
 import {IResource} from "../types";
 import {IconWidget} from "./IconWidget";
 import {GlobalStore} from "../store";
+import {ProcessNode} from "../model";
 
 const ActivityCardWidgetStyled = styled('div')({
     cursor: 'pointer',
@@ -25,11 +26,21 @@ const ActivityCardWidgetStyled = styled('div')({
 
 type ActivityCardWidgetProps = {
     resource: IResource
+    processNode: ProcessNode
+    onClick: (processNode: ProcessNode) => void
 }
-export const ActivityCardWidget: FC<ActivityCardWidgetProps> = ({
-                                                                    resource
-                                                                }) => {
-    return <ActivityCardWidgetStyled>
+export const AddActivityItemWidget: FC<ActivityCardWidgetProps> = ({
+                                                                       resource,
+                                                                       processNode,
+                                                                       onClick
+                                                                   }) => {
+    const handleClick = () => {
+        onClick?.(processNode)
+        const activity = GlobalStore.getActivityResource(resource?.componentName)
+        debugger
+        processNode.setNextNode(activity?.node.clone(processNode))
+    }
+    return <ActivityCardWidgetStyled onClick={handleClick}>
         <IconWidget icon={GlobalStore.getIcon(resource?.icon)}/>
         <div className={`title`}>{resource?.title}</div>
     </ActivityCardWidgetStyled>

@@ -155,11 +155,11 @@ export const Activity: FC<ActivityProps> = ({
                         <IconWidget className={`close`} onClick={handleRemove} icon={React.cloneElement(CloseIcon)}/>}
                 </div>
                 <div className={classNames('body')}>
-                    <div>ss</div>
+                    <div className={`text`}>{processNode.description || processNode.title}</div>
                     <span>{React.cloneElement(RightIcon)}</span>
                 </div>
             </div>
         </div>
-        <AddActivityBox/>
+        <AddActivityBox processNode={processNode}/>
     </ActivityStyled>
 }

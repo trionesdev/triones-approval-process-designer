@@ -1,6 +1,7 @@
 import React, {FC} from "react"
 import {RouteBranches} from "./RouteBranches";
 import styled from "@emotion/styled";
+import {ProcessNode} from "../model";
 
 const RouteActivityStyled = styled('div')({
     display: 'flex',
@@ -41,14 +42,20 @@ const RouteActivityStyled = styled('div')({
 
 type RouteActivityProps = {
     children?: React.ReactNode,
+    processNode?: ProcessNode,
     nextActivity?: React.ReactNode,
 }
 
-export const RouteActivity: FC<RouteActivityProps> = ({children, nextActivity}) => {
+export const RouteActivity: FC<RouteActivityProps> = ({children, processNode, nextActivity}) => {
+
+    const handleAddBranch = () => {
+        processNode.addConditionBranch()
+    }
+
     return <>
         <RouteBranches>
             <RouteActivityStyled className={`route-activity`}>
-                <button className={`add-branch`}>添加条件</button>
+                <button className={`add-branch`} onClick={handleAddBranch}>添加条件</button>
                 {children}
             </RouteActivityStyled>
         </RouteBranches>

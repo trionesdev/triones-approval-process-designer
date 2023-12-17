@@ -1,4 +1,15 @@
-import {ActivityFC,ConditionActivity as TdConditionActivity} from "@trionesdev/approval-process-designer-react";
+import {
+    ActivityFC,
+    ConditionActivity as TdConditionActivity,
+    DesignerCore
+} from "@trionesdev/approval-process-designer-react";
+import createResource = DesignerCore.createResource;
 
 
-export const ConditionActivity :ActivityFC<any> = TdConditionActivity
+export const ConditionActivity: ActivityFC<any> = TdConditionActivity
+ConditionActivity.Resource = createResource({
+    type: 'CONDITION',
+    icon: '',
+    componentName: 'ConditionActivity',
+    title:'条件'
+})

@@ -190,7 +190,8 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
                                     <span className={classNames('priority-title')}>优先级{(index || 0) + 1}</span>
                                 </> :
                                 <>{
-                                    editing ? <input ref={inputRef} defaultValue={processNode?.title}
+                                    editing ? <input ref={inputRef}
+                                                     defaultValue={processNode?.title || `条件${(index || 0) + 1}`}
                                                      onBlur={handleInputBlur}/> : <>
                                         <span className={classNames('editable-title')}
                                               onClick={() => setEditing(true)}>{processNode?.title}</span>
@@ -203,10 +204,10 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
                     </div>
                     <div className={classNames(`body`)}>
                         <div
-                            className={classNames(`description`)}>{processNode?.props?.defaultCondition ? '其他条件进入此流程' : processNode.description}</div>
+                            className={classNames(`description`)}>{processNode?.props?.defaultCondition ? '其他条件进入此流程' : (processNode.description || '请设置条件')}</div>
                     </div>
                 </div>
-                <AddActivityBox/>
+                <AddActivityBox processNode={processNode}/>
             </div>
             {nextActivity}
         </ConditionActivityStyled>

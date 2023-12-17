@@ -24,15 +24,23 @@ export namespace GlobalStore {
         Object.assign(DESIGNER_RESOURCES_STORE, resourceMap)
     }
 
-    export function getActivityResource(componentName: string) {
+    export function getActivityResource(componentName: string): IResource {
         return DESIGNER_RESOURCES_STORE[componentName]
     }
 
     export function getAddableActivityResources(): IResource[] {
-        console.log("ss")
-        console.log(DESIGNER_RESOURCES_STORE)
         return _.filter(_.values(DESIGNER_RESOURCES_STORE), (resource: IResource) => {
             return resource?.addable
         }) || []
+    }
+
+
+    /**
+     * 获取条件节点资源
+     */
+    export function getConditionActivityResource(): IResource {
+        return _.find(_.values(DESIGNER_RESOURCES_STORE), (resource: IResource) => {
+            return resource?.type == 'CONDITION'
+        })
     }
 }

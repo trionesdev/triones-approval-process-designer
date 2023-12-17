@@ -11,6 +11,7 @@ const ProcessWidgetStyled = styled('div')({
     background: '#F0F2F5',
     paddingTop: 20,
     paddingBottom: 20,
+    minWidth:'min-content'
 })
 
 type ProcessWidgetProps = {
