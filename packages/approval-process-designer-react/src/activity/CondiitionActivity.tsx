@@ -194,7 +194,7 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
                                                      defaultValue={processNode?.title || `条件${(index || 0) + 1}`}
                                                      onBlur={handleInputBlur}/> : <>
                                         <span className={classNames('editable-title')}
-                                              onClick={() => setEditing(true)}>{processNode?.title}</span>
+                                              onClick={() => setEditing(true)}>{processNode?.title || `条件${(index || 0) + 1}`}</span>
                                         <span className={classNames('priority-title')}>优先级{(index || 0) + 1}</span>
                                         <IconWidget className={`close`} icon={React.cloneElement(CloseIcon)}
                                                     onClick={handleRemove}/>

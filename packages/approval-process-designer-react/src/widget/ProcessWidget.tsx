@@ -1,7 +1,7 @@
 import {IActivities} from "../types";
 import React, {FC, useEffect} from "react";
 import {ActivityWidget} from "./ActivityWidget";
-import {useProcessNode} from "../hooks/useProcessNode";
+import {useProcess} from "../hooks/useProcess";
 import {ActivitiesContext} from "../context";
 import {EndActivity} from "../activity";
 import styled from "@emotion/styled";
@@ -20,7 +20,7 @@ type ProcessWidgetProps = {
 export const ProcessWidget: FC<ProcessWidgetProps> = ({
                                                           activities
                                                       }) => {
-    const processNode = useProcessNode()
+    const processNode = useProcess()
 
     GlobalStore.registerActivityResources(activities)
 

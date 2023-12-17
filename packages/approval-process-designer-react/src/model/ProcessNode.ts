@@ -1,11 +1,14 @@
-import {define, observable} from "@formily/reactive";
+import {autorun, define, observable, observe, reaction} from "@formily/reactive";
 import randomstring from "randomstring"
 import _ from "lodash";
 import {GlobalStore} from "../store";
+import {ApprovalProcessEngine} from "./ApprovalProcessEngine";
 
 export type ProcessNodeType = 'START' | 'ROUTE' | 'CONDITION' | 'APPROVAL' | 'CC' | 'END'
 
 export interface IProcessNode {
+    engine?: ApprovalProcessEngine
+    isSourceNode?: boolean
     id?: string
     type: ProcessNodeType
     componentName?: string
@@ -19,6 +22,8 @@ export interface IProcessNode {
 const ProcessNodes = new Map<string, ProcessNode>()
 
 export class ProcessNode {
+    engine: ApprovalProcessEngine
+    isSourceNode: boolean
     id: string
     type: ProcessNodeType
     componentName: string
@@ -30,6 +35,8 @@ export class ProcessNode {
     props: any
 
     constructor(node: IProcessNode, parentNode?: ProcessNode) {
+        this.engine = node.engine
+        this.isSourceNode = node.isSourceNode
         this.id = node.id || `Activity_${randomstring.generate({
             length: 10,
             charset: 'alphabetic'
@@ -42,6 +49,7 @@ export class ProcessNode {
         this.title = node.title
         this.description = node.description
         this.props = node.props
+        this.engine = parentNode?.engine
 
         ProcessNodes.set(this.id, this)
         if (node) {
@@ -52,10 +60,28 @@ export class ProcessNode {
 
     makeObservable() {
         define(this, {
+            prevNodeId: observable.ref,
+            title: observable.ref,
+            description: observable.ref,
             nextNode: observable.ref,
             children: observable.shallow,
             props: observable
         })
+
+        reaction(() => {
+            return this.prevNodeId + this.title + this.description + this.nextNode?.id + this.children.length
+        }, () => {
+            if (!this.isSourceNode) {
+                this.engine.handleChange(`${this.id} something changed`)
+            }
+        })
+
+        observe(this.props, (change) => {
+            if (!this.isSourceNode) {
+                this.engine.handleChange(`${this.id} props changed`)
+            }
+        })
+
     }
 
     setNextNode(node: ProcessNode) {
@@ -85,7 +111,14 @@ export class ProcessNode {
             ProcessNodes.set(node.id, this)
             this.id = node.id
         }
+        this.type = node.type
+        this.componentName = node.componentName || node.type
+        this.title = node.title
+        this.description = node.description
         this.props = node.props ?? {}
+        if (node.engine) {
+            this.engine = node.engine
+        }
 
         if (node.nextNode) {
             this.nextNode = new ProcessNode(node.nextNode, this)

@@ -53,7 +53,7 @@ export const RouteActivity: FC<RouteActivityProps> = ({children, processNode, ne
     }
 
     return <>
-        <RouteBranches>
+        <RouteBranches processNode={processNode}>
             <RouteActivityStyled className={`route-activity`}>
                 <button className={`add-branch`} onClick={handleAddBranch}>添加条件</button>
                 {children}

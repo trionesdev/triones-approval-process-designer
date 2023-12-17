@@ -5,6 +5,7 @@ import {ProcessNode} from "../model";
 import {CloseIcon, RightIcon} from "../Icons";
 import {AddActivityBox} from "./AddActivityBox";
 import {IconWidget} from "../widget/IconWidget";
+import {observer} from "@formily/react";
 
 const ActivityStyled = styled('div')({
     boxSizing: 'border-box',
@@ -109,22 +110,34 @@ export type ActivityProps = {
     closeable?: boolean
     onClick?: () => void
 }
-export const Activity: FC<ActivityProps> = ({
-                                                children,
-                                                processNode,
-                                                titleStyle,
-                                                titleEditable,
-                                                onChange,
-                                                closeable,
-                                                onClick,
-                                            }) => {
+export const Activity: FC<ActivityProps> = observer(({
+                                                         children,
+                                                         processNode,
+                                                         titleStyle,
+                                                         titleEditable,
+                                                         onChange,
+                                                         closeable,
+                                                         onClick,
+                                                     }) => {
     const inputRef = createRef<any>()
     const [editing, setEditing] = useState(false)
+
+    const handleSave = (value: any) => {
+        processNode.title = value
+        setEditing(false)
+    }
+
     const handleInputBlur = (e: any) => {
         if (onChange) {
             onChange(e.target.value)
         }
-        setEditing(false)
+        handleSave(e.target.value)
+    }
+
+    const handleKeyDown = (e: any) => {
+        if (e.keyCode == 13) {
+            handleSave(e.target.value)
+        }
     }
 
     const handleRemove = () => {
@@ -143,7 +156,8 @@ export const Activity: FC<ActivityProps> = ({
             <div>
                 <div style={titleStyle} className={classNames('header', {'editable-title': titleEditable})}>
                     <div>
-                        {editing ? <input ref={inputRef} defaultValue={processNode.title} onBlur={handleInputBlur}/> :
+                        {editing ? <input ref={inputRef} defaultValue={processNode.title} onBlur={handleInputBlur}
+                                          onKeyDown={handleKeyDown}/> :
                             <span className={classNames({'editable-title': titleEditable})}
                                   onClick={(e) => {
                                       e.stopPropagation();
@@ -162,4 +176,4 @@ export const Activity: FC<ActivityProps> = ({
         </div>
         <AddActivityBox processNode={processNode}/>
     </ActivityStyled>
-}
+})

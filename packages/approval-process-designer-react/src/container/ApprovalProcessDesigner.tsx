@@ -7,21 +7,25 @@ type ApprovalProcessDesignerProps = {
     children?: React.ReactNode;
     engine?: ApprovalProcessEngine
     value?: any
+    onChange?: (value: any) => void
 }
 
 export const ApprovalProcessDesigner: FC<ApprovalProcessDesignerProps> = ({
                                                                               children,
                                                                               engine,
-                                                                              value
+                                                                              value,
+                                                                              onChange
                                                                           }) => {
     let scopeEngine = engine;
     if (!scopeEngine) {
         scopeEngine = new ApprovalProcessEngine();
     }
 
+    scopeEngine?.setOnchange(onChange)
+
     useEffect(() => {
         if (value) {
-            scopeEngine.processNode.from(value)
+            scopeEngine.process.from(value)
         }
     }, [value])
 

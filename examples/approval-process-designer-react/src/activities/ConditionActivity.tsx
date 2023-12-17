@@ -9,7 +9,5 @@ import createResource = DesignerCore.createResource;
 export const ConditionActivity: ActivityFC<any> = TdConditionActivity
 ConditionActivity.Resource = createResource({
     type: 'CONDITION',
-    icon: '',
-    componentName: 'ConditionActivity',
-    title:'条件'
+    componentName: 'ConditionActivity'
 })
