@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import React, {FC} from "react";
 import {AddActivityBox} from "./AddActivityBox";
+import * as process from "process";
+import {ProcessNode} from "../model";
 
 const RouteBranchesStyled = styled('div')({
     display: 'flex',
@@ -14,11 +16,12 @@ const RouteBranchesStyled = styled('div')({
 
 type RouteBranchesProps = {
     children?: React.ReactNode
+    processNode?: ProcessNode
 }
 
-export const RouteBranches: FC<RouteBranchesProps> = ({children}) => {
+export const RouteBranches: FC<RouteBranchesProps> = ({children, processNode}) => {
     return <RouteBranchesStyled className={`route-branches`}>
         {children}
-        <AddActivityBox/>
+        <AddActivityBox processNode={processNode}/>
     </RouteBranchesStyled>
 }
