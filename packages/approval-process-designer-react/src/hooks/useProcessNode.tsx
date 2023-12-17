@@ -1,5 +1,6 @@
-import {useProcessEngine} from "./useProcessEngine";
+import {useContext} from "react";
+import {ProcessNodeContext} from "../context";
 
 export const useProcessNode = () => {
-  return useProcessEngine().processNode
+  return useContext(ProcessNodeContext)
 }

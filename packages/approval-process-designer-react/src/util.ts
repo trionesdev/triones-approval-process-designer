@@ -6,6 +6,7 @@ export namespace DesignerCore {
     export function createResource(resource: IResourceCreator): IResource {
         return _.assign(resource, {
             node: new ProcessNode({
+                isSourceNode: true,
                 type: resource.type,
                 componentName: resource.componentName,
                 title: resource.title,
@@ -13,5 +14,25 @@ export namespace DesignerCore {
                 props: resource.props
             })
         })
+    }
+
+    export function transformToSchema(processNode: ProcessNode) {
+        function toSchema(processNode: ProcessNode) {
+            if (!processNode) {
+                return null
+            }
+            return {
+                id: processNode.id,
+                type: processNode.type,
+                componentName: processNode.componentName,
+                title: processNode.title,
+                description: processNode.description,
+                props: processNode.props,
+                nextNode: toSchema(processNode.nextNode),
+                children: processNode.children?.map(toSchema) || []
+            }
+        }
+
+        return toSchema(processNode)
     }
 }

@@ -1,19 +1,22 @@
 import React from 'react';
 import './App.css';
 import {
-    ApprovalProcessDesigner,
+    ApprovalProcessDesigner, GlobalStore,
     IProcessNode,
     ProcessWidget, StudioPanel
 } from "@trionesdev/approval-process-designer-react";
 import {ApprovalActivity, ConditionActivity, RouteActivity, StartActivity, CcActivity} from "./activities";
 import {Watermark} from "antd";
+import * as Icons from "./activities/Icons"
 
 function App() {
-
+    const handleOnChange = (value: any) => {
+        console.log("[processNode]", value)
+    }
     const processNode: IProcessNode = {
         type: 'START',
         componentName: 'StartActivity',
-        title: '开始',
+        title: '发起人',
         nextNode: {
             type: 'APPROVAL',
             componentName: 'ApprovalActivity',
@@ -50,10 +53,11 @@ function App() {
         }
     }
 
+    GlobalStore.registerIcons(Icons);
     return (
         <div>
             <Watermark style={{height: '100%'}} content={['书阙', '北斗开源']}>
-                <ApprovalProcessDesigner value={processNode}>
+                <ApprovalProcessDesigner value={processNode} onChange={handleOnChange}>
                     <StudioPanel>
                         <ProcessWidget activities={{
                             StartActivity,

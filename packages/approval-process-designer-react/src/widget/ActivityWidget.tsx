@@ -4,6 +4,7 @@ import {observer} from "@formily/react";
 import {useActivities} from "../hooks";
 import {ActivityFC} from "../types";
 import _ from "lodash"
+import {ProcessNodeContext} from "../context";
 
 type ActivityWidgetProps = {
     processNode: ProcessNode;
@@ -43,5 +44,5 @@ export const ActivityWidget: FC<ActivityWidgetProps> = observer(({
         }
     }
 
-    return <>{handleRender()}</>
+    return <ProcessNodeContext.Provider value={processNode}>{handleRender()}</ProcessNodeContext.Provider>
 })
