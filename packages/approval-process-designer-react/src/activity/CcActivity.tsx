@@ -5,14 +5,17 @@ import {Activity} from "./Activity";
 type CcActivityProps = {
     processNode: ProcessNode
     nextActivity: React.ReactNode
+    onClick?: (processNode: ProcessNode) => void
 }
 
 export const CcActivity: FC<CcActivityProps> = ({
                                                     processNode,
                                                     nextActivity,
+                                                    onClick
                                                 }) => {
     return <>
-        <Activity titleStyle={{backgroundColor: 'rgb(50, 150, 250)'}} processNode={processNode} closeable={true}/>
+        <Activity titleStyle={{backgroundColor: 'rgb(50, 150, 250)'}} processNode={processNode} closeable={true}
+                  onClick={onClick}/>
         {nextActivity}
     </>
 }

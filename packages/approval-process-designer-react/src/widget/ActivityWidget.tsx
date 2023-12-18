@@ -22,8 +22,7 @@ export const ActivityWidget: FC<ActivityWidgetProps> = observer(({
         const renderChildren = () => {
             if (processNode.children.length > 0) {
                 return processNode.children.map((child, index) =>
-                    <ActivityWidget key={`${child.id}-${index}`} processNode={child} index={index} first={index == 0}
-                                    last={index == processNode.children.length - 1}/>)
+                    <ActivityWidget key={`${child.id}-${index}`} processNode={child}/>)
             } else {
                 return []
             }

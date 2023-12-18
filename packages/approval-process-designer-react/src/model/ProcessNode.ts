@@ -202,4 +202,30 @@ export class ProcessNode {
         }
         return ids
     }
+
+
+    get index() {
+        if (this.type === 'CONDITION') {
+            const parentNode = ProcessNodes.get(this.prevNodeId)
+            if (parentNode) {
+                return parentNode.children?.indexOf(this) || 0
+            }
+        }
+        return null
+    }
+
+    isFirst() {
+        if (this.type !== 'CONDITION') {
+            return false
+        }
+        return this.index === 0
+    }
+
+    isLast() {
+        if (this.type !== 'CONDITION') {
+            return false
+        }
+        const parentNode = ProcessNodes.get(this.prevNodeId)
+        return this.index === ((parentNode?.children?.length || 0) - 1)
+    }
 }
