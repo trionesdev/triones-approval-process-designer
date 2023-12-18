@@ -13,7 +13,7 @@ export interface IProcessNode {
     type: ProcessNodeType
     componentName?: string
     nextNode?: IProcessNode
-    children?: IProcessNode[]
+    conditionNodes?: IProcessNode[]
     title?: string
     description?: string
     props?: any
@@ -29,7 +29,7 @@ export class ProcessNode {
     componentName: string
     prevNodeId: string
     nextNode: ProcessNode
-    children: ProcessNode[]
+    conditionNodes: ProcessNode[]
     title: string
     description: string
     props: any
@@ -45,7 +45,7 @@ export class ProcessNode {
         this.componentName = node.componentName || node.type
         this.prevNodeId = parentNode?.id
         this.nextNode = null
-        this.children = []
+        this.conditionNodes = []
         this.title = node.title
         this.description = node.description
         this.props = node.props
@@ -64,12 +64,12 @@ export class ProcessNode {
             title: observable.ref,
             description: observable.ref,
             nextNode: observable.ref,
-            children: observable.shallow,
+            conditionNodes: observable.shallow,
             props: observable
         })
 
         reaction(() => {
-            return this.prevNodeId + this.title + this.description + this.nextNode?.id + this.children.length
+            return this.prevNodeId + this.title + this.description + this.nextNode?.id + this.conditionNodes.length
         }, () => {
             if (!this.isSourceNode) {
                 this.engine.handleChange(`${this.id} something changed`)
@@ -89,19 +89,22 @@ export class ProcessNode {
             this.nextNode = null
             return
         }
+
+
         node.nextNode = this.nextNode
-        this.nextNode = node
         node.prevNodeId = this.id
+        this.nextNode = node
+
     }
 
-    setChildren(nodes: ProcessNode[]) {
+    setConditionNodes(nodes: ProcessNode[]) {
         if (_.isEmpty(nodes)) {
             return
         }
         _.forEach(nodes, (node) => {
             node.prevNodeId = this.id
         })
-        this.children = nodes
+        this.conditionNodes = nodes
     }
 
     from(node?: IProcessNode) {
@@ -123,8 +126,8 @@ export class ProcessNode {
         if (node.nextNode) {
             this.nextNode = new ProcessNode(node.nextNode, this)
         }
-        if (node.children && node.children.length > 0) {
-            this.children = node.children?.map((node) => {
+        if (node.conditionNodes && node.conditionNodes.length > 0) {
+            this.conditionNodes = node.conditionNodes?.map((node) => {
                 return new ProcessNode(node, this)
             }) || []
         }
@@ -143,9 +146,18 @@ export class ProcessNode {
             const condition1 = conditionResource.node.clone(node)
             const conditionDefault = conditionResource.node.clone(node)
             conditionDefault.props = _.assign(conditionDefault.props, {defaultCondition: true})
-            node.setChildren([condition1, conditionDefault])
+            node.setConditionNodes([condition1, conditionDefault])
         }
         return node
+    }
+
+    cloneDeep(node?: ProcessNode) {
+        if (!node) {
+            return
+        }
+        const cloneNode = _.cloneDeep(node)
+        ProcessNodes.set(cloneNode.id, cloneNode)
+        return cloneNode;
     }
 
     remove() {
@@ -153,8 +165,8 @@ export class ProcessNode {
 
         if (this.type == "CONDITION") { //当前节点是条件节点
             const linkedIds = this.collectLinkIds()
-            if (parentNode.children.length > 2) { //当分支超过2个时，只需要删除当前节点，否则，清除整个路由节点
-                parentNode.children = _.filter(parentNode.children, (conditionNode: any) => {
+            if (parentNode.conditionNodes.length > 2) { //当分支超过2个时，只需要删除当前节点，否则，清除整个路由节点
+                parentNode.conditionNodes = _.filter(parentNode.conditionNodes, (conditionNode: any) => {
                     return conditionNode.id !== this.id
                 })
             } else {
@@ -166,7 +178,10 @@ export class ProcessNode {
                 ProcessNodes.delete(id)
             })
         } else {
-            parentNode?.setNextNode(this.nextNode)
+            if (this.nextNode) {
+                this.nextNode.prevNodeId = this.prevNodeId
+            }
+            parentNode.nextNode = this.nextNode
             ProcessNodes.delete(this.id)
         }
     }
@@ -180,8 +195,8 @@ export class ProcessNode {
         }
         const conditionActivity = GlobalStore.getConditionActivityResource()?.node.clone(this)
         if (conditionActivity) {
-            const newChildren = _.concat(this.children.slice(0, this.children.length - 1), conditionActivity, this.children.slice(this.children.length - 1))
-            this.setChildren(newChildren)
+            const newChildren = _.concat(this.conditionNodes.slice(0, this.conditionNodes.length - 1), conditionActivity, this.conditionNodes.slice(this.conditionNodes.length - 1))
+            this.setConditionNodes(newChildren)
         }
     }
 
@@ -194,8 +209,8 @@ export class ProcessNode {
             ids.push(this.nextNode.id)
             ids = ids.concat(this.nextNode.collectLinkIds())
         }
-        if (this.children && this.children.length > 0) {
-            this.children.forEach(child => {
+        if (this.conditionNodes && this.conditionNodes.length > 0) {
+            this.conditionNodes.forEach(child => {
                 ids.push(child.id)
                 ids = ids.concat(child.collectLinkIds())
             })
@@ -208,7 +223,7 @@ export class ProcessNode {
         if (this.type === 'CONDITION') {
             const parentNode = ProcessNodes.get(this.prevNodeId)
             if (parentNode) {
-                return parentNode.children?.indexOf(this) || 0
+                return parentNode.conditionNodes?.indexOf(this) || 0
             }
         }
         return null
@@ -226,6 +241,6 @@ export class ProcessNode {
             return false
         }
         const parentNode = ProcessNodes.get(this.prevNodeId)
-        return this.index === ((parentNode?.children?.length || 0) - 1)
+        return this.index === ((parentNode?.conditionNodes?.length || 0) - 1)
     }
 }

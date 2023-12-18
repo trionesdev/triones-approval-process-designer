@@ -23,13 +23,14 @@ export namespace DesignerCore {
             }
             return {
                 id: processNode.id,
+                prevNodeId: processNode.prevNodeId,
                 type: processNode.type,
                 componentName: processNode.componentName,
                 title: processNode.title,
                 description: processNode.description,
                 props: processNode.props,
                 nextNode: toSchema(processNode.nextNode),
-                children: processNode.children?.map(toSchema) || []
+                conditionNodes: processNode.conditionNodes?.map(toSchema) || []
             }
         }
 

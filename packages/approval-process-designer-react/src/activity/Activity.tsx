@@ -144,7 +144,9 @@ export const Activity: FC<ActivityProps> = observer(({
         }
     }
 
-    const handleRemove = () => {
+    const handleRemove = (e: any) => {
+        e.stopPropagation();
+        e.preventDefault();
         processNode?.remove()
     }
 

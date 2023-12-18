@@ -15,13 +15,14 @@ export const ActivityWidget: FC<ActivityWidgetProps> = observer(({
                                                                      processNode,
                                                                      ...props
                                                                  }) => {
+    console.log("ss", processNode.id)
     const activities = useActivities()
     const handleRender = () => {
         const Activity: ActivityFC<any> = _.get(activities, [processNode.componentName]);
 
         const renderChildren = () => {
-            if (processNode.children.length > 0) {
-                return processNode.children.map((child, index) =>
+            if (processNode.conditionNodes.length > 0) {
+                return processNode.conditionNodes.map((child, index) =>
                     <ActivityWidget key={`${child.id}-${index}`} processNode={child}/>)
             } else {
                 return []

@@ -30,7 +30,7 @@ function App() {
                     componentName: 'CcActivity',
                     title: '抄送人',
                 },
-                children: [
+                conditionNodes: [
                     {
                         type: 'CONDITION',
                         componentName: 'ConditionActivity',
