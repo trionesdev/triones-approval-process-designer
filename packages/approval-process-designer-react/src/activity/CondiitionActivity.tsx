@@ -1,13 +1,12 @@
 import styled from "@emotion/styled";
 import React, {createRef, FC, useEffect, useState} from "react";
-import {ProcessNode} from "../model";
 import classNames from "classnames";
 import {AddActivityBox} from "./AddActivityBox";
 import {BranchBox} from "./BranchBox";
 import {CloseIcon, QuestionIcon} from "../Icons";
 import {Tooltip} from "../components";
 import {IconWidget} from "../widget/IconWidget";
-import {GlobalStore} from "../store";
+import {IActivity} from "../types";
 
 const ConditionActivityStyled = styled('div')({
     boxSizing: 'border-box',
@@ -134,11 +133,7 @@ const ConditionActivityStyled = styled('div')({
     }
 })
 
-type ConditionActivityProps = {
-    processNode?: ProcessNode
-    nextActivity?: React.ReactNode
-    onClick?: (processNode: ProcessNode) => void
-}
+type ConditionActivityProps = IActivity
 
 export const ConditionActivity: FC<ConditionActivityProps> = ({
                                                                   processNode,

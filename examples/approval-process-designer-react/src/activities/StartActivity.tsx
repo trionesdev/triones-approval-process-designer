@@ -1,7 +1,12 @@
-import {ActivityFC, DesignerCore, StartActivity as TdStartActivity} from "@trionesdev/approval-process-designer-react";
+import {
+    ActivityFC,
+    DesignerCore,
+    IActivity,
+    StartActivity as TdStartActivity
+} from "@trionesdev/approval-process-designer-react";
 import createResource = DesignerCore.createResource;
 
-export const StartActivity: ActivityFC<any> = TdStartActivity
+export const StartActivity: ActivityFC<IActivity> = TdStartActivity
 StartActivity.Resource = createResource({
     type: 'START',
     componentName: 'StartActivity',

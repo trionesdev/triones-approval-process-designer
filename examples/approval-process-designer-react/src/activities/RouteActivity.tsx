@@ -1,7 +1,12 @@
-import {ActivityFC, DesignerCore, RouteActivity as TdRouteActivity} from "@trionesdev/approval-process-designer-react";
+import {
+    ActivityFC,
+    DesignerCore,
+    IActivity,
+    RouteActivity as TdRouteActivity
+} from "@trionesdev/approval-process-designer-react";
 import createResource = DesignerCore.createResource;
 
-export const RouteActivity: ActivityFC<any> = TdRouteActivity
+export const RouteActivity: ActivityFC<IActivity> = TdRouteActivity
 
 RouteActivity.Resource = createResource({
     icon: 'RouteActivityIcon',

@@ -1,7 +1,7 @@
 import React, {FC} from "react"
 import {RouteBranches} from "./RouteBranches";
 import styled from "@emotion/styled";
-import {ProcessNode} from "../model";
+import {IActivity} from "../types";
 
 const RouteActivityStyled = styled('div')({
     display: 'flex',
@@ -40,10 +40,8 @@ const RouteActivityStyled = styled('div')({
     }
 })
 
-type RouteActivityProps = {
+type RouteActivityProps = IActivity & {
     children?: React.ReactNode,
-    processNode?: ProcessNode,
-    nextActivity?: React.ReactNode,
 }
 
 export const RouteActivity: FC<RouteActivityProps> = ({children, processNode, nextActivity}) => {

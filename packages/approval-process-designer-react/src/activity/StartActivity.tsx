@@ -1,12 +1,8 @@
 import React, {FC} from "react"
 import {Activity} from "./Activity";
-import {ProcessNode} from "../model";
+import {IActivity} from "../types";
 
-type StartActivityProps = {
-    processNode: ProcessNode
-    nextActivity: React.ReactNode
-    onClick?: (processNode: ProcessNode) => void
-}
+type StartActivityProps = IActivity
 
 export const StartActivity: FC<StartActivityProps> = ({
                                                           processNode,

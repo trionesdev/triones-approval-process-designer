@@ -1,12 +1,8 @@
 import React, {FC} from "react"
-import {ProcessNode} from "../model";
 import {Activity} from "./Activity";
+import {IActivity} from "../types";
 
-type CcActivityProps = {
-    processNode: ProcessNode
-    nextActivity: React.ReactNode
-    onClick?: (processNode: ProcessNode) => void
-}
+type CcActivityProps = IActivity
 
 export const CcActivity: FC<CcActivityProps> = ({
                                                     processNode,
