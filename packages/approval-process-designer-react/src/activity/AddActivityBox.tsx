@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import React, {FC, useRef} from "react";
 import {PlusIcon} from "../Icons";
 import {Popover, Col, Row} from "../components";
-import {GlobalStore} from "../store";
 import {observer} from "@formily/react";
 import {useProcessEngine} from "../hooks";
 import {AddActivityItemWidget} from "../widget/AddActivityItemWidget";
@@ -66,6 +65,7 @@ type AddActivityBoxProps = {
 export const AddActivityBox: FC<AddActivityBoxProps> = observer(({
                                                                      processNode
                                                                  }) => {
+    const btnRef = useRef<HTMLButtonElement>()
     const [open, setOpen] = React.useState(false)
     const popoverRef = useRef<any>(null);
 
@@ -73,10 +73,15 @@ export const AddActivityBox: FC<AddActivityBoxProps> = observer(({
     const {addableActivityResources} = engine
 
 
-    useClickAway(() => {
-        if (open) {
-            setOpen(false)
+    useClickAway((e: any) => {
+        if (btnRef.current.contains(e.target)) {
+
+        } else {
+            if (open) {
+                setOpen(false)
+            }
         }
+
     }, popoverRef);
 
     return <AddActivityBoxStyled className={`add-activity-box`}>
@@ -91,10 +96,9 @@ export const AddActivityBox: FC<AddActivityBoxProps> = observer(({
                              </Col>
                          }) || []}
                      </Row>}>
-                <button onClick={(e) => {
-                    e.stopPropagation()
-                    e.preventDefault()
-                    setOpen(true)
+                <button ref={btnRef} onClick={(e) => {
+                    setOpen(!open)
+                    // e.stopPropagation()
                 }}><span>{React.cloneElement(PlusIcon)}</span></button>
             </Popover>
         </div>

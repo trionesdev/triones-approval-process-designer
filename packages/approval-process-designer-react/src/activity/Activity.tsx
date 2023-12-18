@@ -108,7 +108,7 @@ export type ActivityProps = {
     titleEditable?: boolean
     onChange?: (v: string) => void
     closeable?: boolean
-    onClick?: () => void
+    onClick?: (processNode: ProcessNode) => void
 }
 export const Activity: FC<ActivityProps> = observer(({
                                                          children,
@@ -121,6 +121,10 @@ export const Activity: FC<ActivityProps> = observer(({
                                                      }) => {
     const inputRef = createRef<any>()
     const [editing, setEditing] = useState(false)
+
+    const handleClick = () => {
+        onClick?.(processNode)
+    }
 
     const handleSave = (value: any) => {
         processNode.title = value
@@ -152,7 +156,7 @@ export const Activity: FC<ActivityProps> = observer(({
 
 
     return <ActivityStyled className={`activity`}>
-        <div className={`activity-box`}>
+        <div className={`activity-box`} onClick={handleClick}>
             <div>
                 <div style={titleStyle} className={classNames('header', {'editable-title': titleEditable})}>
                     <div>
