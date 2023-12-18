@@ -1,13 +1,13 @@
 import {
     ActivityFC,
     ApprovalActivity as TdApprovalActivity,
-    DesignerCore
+    DesignerCore, IActivity
 } from "@trionesdev/approval-process-designer-react";
 import createResource = DesignerCore.createResource;
 import {Button, Drawer, Form, Input} from "antd";
 import {useState} from "react";
 
-export const ApprovalActivity: ActivityFC<any> = ({...props}) => {
+export const ApprovalActivity: ActivityFC<IActivity> = ({...props}) => {
     const [form] = Form.useForm()
 
     const [open, setOpen] = useState(false)
@@ -19,7 +19,7 @@ export const ApprovalActivity: ActivityFC<any> = ({...props}) => {
 
     const handleSave = () => {
         form.validateFields().then((values: any) => {
-
+            props.processNode.description = values.description
         })
     }
 
