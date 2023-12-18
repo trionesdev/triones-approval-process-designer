@@ -7,6 +7,7 @@ import {BranchBox} from "./BranchBox";
 import {CloseIcon, QuestionIcon} from "../Icons";
 import {Tooltip} from "../components";
 import {IconWidget} from "../widget/IconWidget";
+import {GlobalStore} from "../store";
 
 const ConditionActivityStyled = styled('div')({
     boxSizing: 'border-box',
@@ -136,17 +137,13 @@ const ConditionActivityStyled = styled('div')({
 type ConditionActivityProps = {
     processNode?: ProcessNode
     nextActivity?: React.ReactNode
-    first?: boolean,
-    last?: boolean
-    index?: number
+    onClick?: (processNode: ProcessNode) => void
 }
 
 export const ConditionActivity: FC<ConditionActivityProps> = ({
                                                                   processNode,
                                                                   nextActivity,
-                                                                  first,
-                                                                  last,
-                                                                  index
+                                                                  onClick
                                                               }) => {
     const inputRef = createRef<any>()
     const [editing, setEditing] = useState(false)
@@ -155,7 +152,7 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
         if (processNode.props?.defaultCondition) {
             return
         }
-
+        onClick?.(processNode)
     }
 
     const handleInputBlur = (e: any) => {
@@ -172,7 +169,8 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
         }
     }, [inputRef])
 
-    return <BranchBox firstCol={first} lastCol={last}>
+
+    return <BranchBox firstCol={processNode.isFirst()} lastCol={processNode.isLast()}>
         <ConditionActivityStyled className={`condition-activity`}>
             <div className={`condition-activity-box`} onClick={handleOnClick}>
                 <div className={classNames('auto-judge')}>
@@ -187,15 +185,15 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
                                             className={classNames('action-icon')}>{React.cloneElement(QuestionIcon)}</span>
                                     </Tooltip>
                                 </span>
-                                    <span className={classNames('priority-title')}>优先级{(index || 0) + 1}</span>
+                                    <span className={classNames('priority-title')}>优先级{(processNode.index || 0) + 1}</span>
                                 </> :
                                 <>{
                                     editing ? <input ref={inputRef}
-                                                     defaultValue={processNode?.title || `条件${(index || 0) + 1}`}
+                                                     defaultValue={processNode?.title || `条件${(processNode.index || 0) + 1}`}
                                                      onBlur={handleInputBlur}/> : <>
                                         <span className={classNames('editable-title')}
-                                              onClick={() => setEditing(true)}>{processNode?.title || `条件${(index || 0) + 1}`}</span>
-                                        <span className={classNames('priority-title')}>优先级{(index || 0) + 1}</span>
+                                              onClick={() => setEditing(true)}>{processNode?.title || `条件${(processNode.index || 0) + 1}`}</span>
+                                        <span className={classNames('priority-title')}>优先级{(processNode.index || 0) + 1}</span>
                                         <IconWidget className={`close`} icon={React.cloneElement(CloseIcon)}
                                                     onClick={handleRemove}/>
                                     </>

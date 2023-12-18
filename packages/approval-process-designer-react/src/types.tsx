@@ -19,7 +19,9 @@ export interface IResource extends IResourceCreator{
 }
 
 export interface IActivity{
-
+    nextActivity: React.ReactNode
+    processNode: ProcessNode
+    onClick?: (processNode: ProcessNode) => void
 }
 
 export type ActivityFC<P = IActivity> = React.FC<P> & {
