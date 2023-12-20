@@ -1,12 +1,12 @@
 import React, {FC, useEffect} from "react"
 import {ApprovalProcessContext} from "../context";
 import {ApprovalProcessEngine} from "../model/ApprovalProcessEngine";
-import {ProcessNode} from "../model";
+import {IProcessNode, ProcessNode} from "../model";
 
 type ApprovalProcessDesignerProps = {
     children?: React.ReactNode;
     engine?: ApprovalProcessEngine
-    value?: any
+    value?: IProcessNode
     onChange?: (value: any) => void
 }
 
