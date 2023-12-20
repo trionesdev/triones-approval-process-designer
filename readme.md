@@ -10,3 +10,7 @@
 - 支持自定义节点类型
 - 支持扩展节点属性
 
+#### 互相吹捧，共同进步
+<div style="text-align: center">
+<img src="images/shuque_wx.jpg" width="200px" alt="">
+</div>
