@@ -15,7 +15,7 @@ export const ActivityWidget: FC<ActivityWidgetProps> = observer(({
                                                                      processNode,
                                                                      ...props
                                                                  }) => {
-    console.log("ss", processNode.id)
+    console.log("ss", processNode.id,processNode)
     const activities = useActivities()
     const handleRender = () => {
         const Activity: ActivityFC<any> = _.get(activities, [processNode.componentName]);

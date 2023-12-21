@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {
     ApprovalProcessDesigner, GlobalStore,
@@ -10,10 +10,7 @@ import {Watermark} from "antd";
 import * as Icons from "./activities/Icons"
 
 function App() {
-    const handleOnChange = (value: any) => {
-        console.log("[processNode]", value)
-    }
-    const processNode: IProcessNode = {
+    const [data,setData] = useState<IProcessNode>({
         type: 'START',
         componentName: 'StartActivity',
         title: '发起人',
@@ -51,13 +48,17 @@ function App() {
                 ]
             }
         }
+    })
+    const handleOnChange = (value: any) => {
+        console.log("[processNode]", value)
+        setData(value)
     }
 
     GlobalStore.registerIcons(Icons);
     return (
         <div>
             <Watermark style={{height: '100%'}} content={['书阙', '北斗开源']}>
-                <ApprovalProcessDesigner value={processNode} onChange={handleOnChange}>
+                <ApprovalProcessDesigner value={data} onChange={handleOnChange}>
                     <StudioPanel>
                         <ProcessWidget activities={{
                             StartActivity,

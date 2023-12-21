@@ -41,7 +41,6 @@ export const AddActivityItemWidget: FC<ActivityCardWidgetProps> = ({
     const handleClick = () => {
         onClick?.(processNode)
         const activity = GlobalStore.getActivityResource(resource?.componentName)
-        debugger
         processNode.setNextNode(activity?.node.clone(processNode))
     }
     return <ActivityCardWidgetStyled onClick={handleClick}>
