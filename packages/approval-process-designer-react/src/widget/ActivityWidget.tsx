@@ -1,4 +1,4 @@
-import React, {Component, FC} from "react";
+import React, {FC} from "react";
 import {ProcessNode} from "../model";
 import {observer} from "@formily/react";
 import {useActivities} from "../hooks";
@@ -15,7 +15,6 @@ export const ActivityWidget: FC<ActivityWidgetProps> = observer(({
                                                                      processNode,
                                                                      ...props
                                                                  }) => {
-    console.log("ss", processNode.id,processNode)
     const activities = useActivities()
     const handleRender = () => {
         const Activity: ActivityFC<any> = _.get(activities, [processNode.componentName]);
