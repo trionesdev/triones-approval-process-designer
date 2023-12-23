@@ -175,7 +175,7 @@ export const Activity: FC<ActivityProps> = observer(({
                         <IconWidget className={`close`} onClick={handleRemove} icon={React.cloneElement(CloseIcon)}/>}
                 </div>
                 <div className={classNames('body')}>
-                    <div className={`text`}>{processNode.description || processNode.title}</div>
+                    <div className={`text`}>{processNode.description || `请设置${processNode.title}`}</div>
                     <span>{React.cloneElement(RightIcon)}</span>
                 </div>
             </div>
