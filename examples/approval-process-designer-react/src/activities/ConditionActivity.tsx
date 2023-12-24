@@ -4,9 +4,28 @@ import {
     DesignerCore, IActivity
 } from "@trionesdev/approval-process-designer-react";
 import createResource = DesignerCore.createResource;
+import {useState} from "react";
+import {Button, Drawer, Form, Input} from "antd";
 
 
-export const ConditionActivity: ActivityFC<IActivity> = TdConditionActivity
+export const ConditionActivity: ActivityFC<IActivity> = ({...props}) => {
+    const [open, setOpen] = useState(false)
+
+
+    const handleClick = () => {
+        setOpen(true)
+    }
+    return <>
+        <TdConditionActivity {...props} onClick={handleClick}/>
+        <Drawer open={open} onClose={() => {
+            setOpen(false)
+        }}
+
+        >
+            condition drawer
+        </Drawer>
+    </>
+}
 ConditionActivity.Resource = createResource({
     type: 'CONDITION',
     componentName: 'ConditionActivity'

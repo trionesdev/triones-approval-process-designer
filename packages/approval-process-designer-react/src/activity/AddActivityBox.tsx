@@ -98,7 +98,6 @@ export const AddActivityBox: FC<AddActivityBoxProps> = observer(({
                      </Row>}>
                 <button ref={btnRef} onClick={(e) => {
                     setOpen(!open)
-                    // e.stopPropagation()
                 }}><span>{React.cloneElement(PlusIcon)}</span></button>
             </Popover>
         </div>

@@ -13,7 +13,7 @@ const ConditionActivityStyled = styled('div')({
     minHeight: '220px',
     display: 'inline-flex',
     flexDirection: 'column',
-    '.condition-activity-box': {
+    '.condition-activity-wrapper': {
         marginTop: '30px',
         paddingRight: '50px',
         paddingLeft: '50px',
@@ -34,7 +34,7 @@ const ConditionActivityStyled = styled('div')({
             height: '100%',
             backgroundColor: `#CACACA`
         },
-        '.auto-judge': {
+        '.condition-activity-box': {
             boxSizing: 'border-box',
             position: 'relative',
             width: '220px',
@@ -167,9 +167,9 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
 
     return <BranchBox firstCol={processNode.isFirst()} lastCol={processNode.isLast()}>
         <ConditionActivityStyled className={`condition-activity`}>
-            <div className={`condition-activity-box`} onClick={handleOnClick}>
-                <div className={classNames('auto-judge')}>
-                    <div className={classNames(`header`)}>
+            <div className={`condition-activity-wrapper`}>
+                <div className={classNames('condition-activity-box')} onClick={handleOnClick}>
+                    <div className={classNames(`header`)} >
                         {
                             processNode?.props?.defaultCondition ?
                                 <>
@@ -180,7 +180,8 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
                                             className={classNames('action-icon')}>{React.cloneElement(QuestionIcon)}</span>
                                     </Tooltip>
                                 </span>
-                                    <span className={classNames('priority-title')}>优先级{(processNode.index || 0) + 1}</span>
+                                    <span
+                                        className={classNames('priority-title')}>优先级{(processNode.index || 0) + 1}</span>
                                 </> :
                                 <>{
                                     editing ? <input ref={inputRef}
@@ -188,7 +189,8 @@ export const ConditionActivity: FC<ConditionActivityProps> = ({
                                                      onBlur={handleInputBlur}/> : <>
                                         <span className={classNames('editable-title')}
                                               onClick={() => setEditing(true)}>{processNode?.title || `条件${(processNode.index || 0) + 1}`}</span>
-                                        <span className={classNames('priority-title')}>优先级{(processNode.index || 0) + 1}</span>
+                                        <span
+                                            className={classNames('priority-title')}>优先级{(processNode.index || 0) + 1}</span>
                                         <IconWidget className={`close`} icon={React.cloneElement(CloseIcon)}
                                                     onClick={handleRemove}/>
                                     </>
