@@ -118,7 +118,7 @@ export class ProcessNode {
         this.componentName = node.componentName || node.type
         this.title = node.title
         this.description = node.description
-        this.props = node.props
+        this.props = node.props ?? {}
         if (node.engine) {
             this.engine = node.engine
         }

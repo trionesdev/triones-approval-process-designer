@@ -19,7 +19,7 @@ export const ApprovalActivity: ActivityFC<IActivity> = ({...props}) => {
 
     const handleSave = () => {
         form.validateFields().then((values: any) => {
-            props.processNode.description = values.description
+            props.processNode.props = values
         })
     }
 
@@ -33,7 +33,7 @@ export const ApprovalActivity: ActivityFC<IActivity> = ({...props}) => {
                 </div>}
         >
             <Form form={form}>
-                <Form.Item label={`描述`} name={`description`}>
+                <Form.Item label={`年龄`} name={`age`}>
                     <Input/>
                 </Form.Item>
             </Form>

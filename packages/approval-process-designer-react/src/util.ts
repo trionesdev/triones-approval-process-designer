@@ -28,7 +28,7 @@ export namespace DesignerCore {
                 componentName: processNode.componentName,
                 title: processNode.title,
                 description: processNode.description,
-                props: processNode.props,
+                props: _.isEmpty(processNode.props) ? null : processNode.props,
                 nextNode: toSchema(processNode.nextNode),
                 conditionNodes: processNode.conditionNodes?.map(toSchema) || []
             }

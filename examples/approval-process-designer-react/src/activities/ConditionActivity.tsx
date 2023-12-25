@@ -15,12 +15,17 @@ export const ConditionActivity: ActivityFC<IActivity> = ({...props}) => {
     const handleClick = () => {
         setOpen(true)
     }
+
+    const handleSave = () => {
+        props.processNode.props = {"days": "3"}
+    }
+
     return <>
         <TdConditionActivity {...props} onClick={handleClick}/>
         <Drawer open={open} onClose={() => {
             setOpen(false)
         }}
-
+                footer={<>                    <Button onClick={handleSave}>确定</Button></>}
         >
             condition drawer
         </Drawer>
