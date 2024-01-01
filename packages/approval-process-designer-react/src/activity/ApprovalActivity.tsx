@@ -10,7 +10,7 @@ export const ApprovalActivity: FC<ApprovalActivityProps> = ({
                                                                 onClick
                                                             }) => {
     return <>
-        <Activity processNode={processNode} closeable={true} onClick={onClick}/>
+        <Activity titleStyle={{backgroundColor: 'rgb(255, 148, 62)'}} processNode={processNode} closeable={true} onClick={onClick}/>
         {nextActivity}
     </>
 }
