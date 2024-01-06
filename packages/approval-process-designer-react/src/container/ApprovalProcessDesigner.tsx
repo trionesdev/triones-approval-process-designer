@@ -29,8 +29,10 @@ export const ApprovalProcessDesigner: FC<ApprovalProcessDesignerProps> = ({
     }, [engine])
 
     designerEngine?.setOnchange((value: any) => {
-        setScopeValue(value)
-        onChange?.(value)
+        if (!_.isEqual(scopeValue, value)) {
+            setScopeValue(value)
+            onChange?.(value)
+        }
     })
 
 
